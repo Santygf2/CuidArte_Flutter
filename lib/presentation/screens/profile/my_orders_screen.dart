@@ -450,7 +450,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
     final status = order.status.toLowerCase();
     final statusLabel = _statusLabel(status);
     final isPending = status == 'pendiente';
-    final isDelivered = status == 'entregado';
+    final isDelivered = status == 'entregado' || status == 'pagado';
     final badgeBg = isPending
         ? const Color(0xFFFEF9C3)
         : isDelivered
@@ -612,10 +612,11 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                 ),
                 const SizedBox(height: 10),
                 Row(
-                  children: List.generate(4, (index) {
+                  children: List.generate(5, (index) {
                     final active = order.statusStep >= index + 1;
                     final labels = [
                       'Pendiente',
+                      'Pagado',
                       'Confirmado',
                       'Enviado',
                       'Entregado',
@@ -623,7 +624,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                     return Expanded(
                       child: Padding(
                         padding: EdgeInsets.only(
-                          right: index == 3 ? 0 : 5,
+                          right: index == 4 ? 0 : 5,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -817,6 +818,8 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
 
   String _statusLabel(String status) {
     switch (status) {
+      case 'pagado':
+        return 'Pagado';
       case 'confirmado':
         return 'Confirmado';
       case 'enviado':
