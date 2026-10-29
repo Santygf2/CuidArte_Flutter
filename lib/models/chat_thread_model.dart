@@ -1,3 +1,5 @@
+import '../core/network/api_client.dart';
+
 class ChatThreadModel {
   final String id;
   final String otherName;
@@ -27,7 +29,9 @@ class ChatThreadModel {
     return ChatThreadModel(
       id: (json['id'] ?? '').toString(),
       otherName: (json['other_name'] ?? '').toString(),
-      otherAvatar: (json['other_avatar'] ?? '').toString(),
+      otherAvatar: ApiClient.resolveUrl(
+        (json['other_avatar'] ?? '').toString(),
+      ),
       otherRole: (json['other_role'] ?? '').toString(),
       lastMessage: (json['last_message'] ?? '').toString(),
       lastMine: json['last_mine'] == true,

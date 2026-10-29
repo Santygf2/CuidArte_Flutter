@@ -1,3 +1,5 @@
+import '../core/network/api_client.dart';
+
 class EducationalResourceModel {
   final String id;
   final String title;
@@ -36,10 +38,12 @@ class EducationalResourceModel {
       readTime: (json['read_time'] ?? '5 min').toString(),
       summary: (json['summary'] ?? '').toString(),
       author: (json['author'] ?? 'Equipo CuidArte').toString(),
-      downloadUrl: (json['download_url'] ?? '').toString(),
+      downloadUrl: ApiClient.resolveUrl(
+        (json['download_url'] ?? '').toString(),
+      ),
       downloadsCount: (json['downloads_count'] as num?)?.toInt() ?? 0,
       content: (json['content'] ?? '').toString(),
-      imageUrl: (json['image_url'] ?? '').toString(),
+      imageUrl: ApiClient.resolveUrl((json['image_url'] ?? '').toString()),
       createdAt: DateTime.tryParse(
         (json['fecha_creacion'] ?? '').toString(),
       ),

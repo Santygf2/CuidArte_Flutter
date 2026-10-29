@@ -1,4 +1,5 @@
 import 'user_role.dart';
+import '../core/network/api_client.dart';
 
 class UserModel {
   final String id;
@@ -72,7 +73,7 @@ class UserModel {
 
     final avatarRaw = perfil['foto_url'];
     final avatarUrl = avatarRaw is String && avatarRaw.trim().isNotEmpty
-        ? avatarRaw
+        ? ApiClient.resolveUrl(avatarRaw)
         : null;
 
     final specialtyRaw =

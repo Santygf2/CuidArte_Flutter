@@ -1,3 +1,4 @@
+import '../core/network/api_client.dart';
 import 'visit_model.dart';
 
 class ClientDashboardStats {
@@ -60,7 +61,7 @@ class UpcomingWorkshopModel {
       time: (json['time'] ?? '').toString(),
       location: (json['location'] ?? '').toString(),
       modality: (json['modality'] ?? '').toString(),
-      imageUrl: (json['image_url'] ?? '').toString(),
+      imageUrl: ApiClient.resolveUrl((json['image_url'] ?? '').toString()),
     );
   }
 }
@@ -87,7 +88,7 @@ class AppNotificationModel {
       id: (json['id'] ?? '').toString(),
       title: (json['titulo'] ?? '').toString(),
       message: (json['message'] ?? '').toString(),
-      url: (json['url'] ?? '').toString(),
+      url: ApiClient.resolveUrl((json['url'] ?? '').toString()),
       read: json['read'] == true,
       date: DateTime.tryParse((json['fecha'] ?? '').toString()) ??
           DateTime.now(),

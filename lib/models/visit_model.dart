@@ -1,3 +1,5 @@
+import '../core/network/api_client.dart';
+
 class VisitModel {
   final String id;
   final String caregiverId;
@@ -52,7 +54,9 @@ class VisitModel {
       caregiverId: (json['caregiver_id'] ?? '').toString(),
       caregiverName: (json['caregiver_name'] ?? '').toString(),
       caregiverSpecialty: (json['caregiver_specialty'] ?? '').toString(),
-      caregiverAvatar: (json['caregiver_avatar'] ?? '').toString(),
+      caregiverAvatar: ApiClient.resolveUrl(
+        (json['caregiver_avatar'] ?? '').toString(),
+      ),
       caregiverPhone: (json['caregiver_phone'] ?? '').toString(),
       clientId: (json['client_id'] ?? '').toString(),
       clientName: (json['client_name'] ?? '').toString(),
@@ -60,7 +64,9 @@ class VisitModel {
       clientPhone: (json['client_phone'] ?? '').toString(),
       clientEmail: (json['client_email'] ?? '').toString(),
       clientAge: (json['client_age'] as num?)?.toInt(),
-      clientAvatar: (json['client_avatar'] ?? '').toString(),
+      clientAvatar: ApiClient.resolveUrl(
+        (json['client_avatar'] ?? '').toString(),
+      ),
       elderlyCondition:
           (json['elderly_condition'] ?? 'Valoración preventiva').toString(),
       date: fecha ?? DateTime.now(),

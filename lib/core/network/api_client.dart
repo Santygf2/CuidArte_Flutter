@@ -42,19 +42,49 @@ class ApiClient {
   final TokenStorageBase _tokenStorage;
   Future<bool>? _refreshInFlight;
 
+  /// Backend Django desplegado en Vercel.
+  static const String productionBaseUrl =
+      'https://cuid-arte-gamma.vercel.app/api/v1';
+
+  /// Base de la API.
+  ///
+  /// Prioridad:
+  /// 1. `--dart-define=API_URL=https://mi-backend/api/v1`
+  /// 2. `--dart-define=USE_LOCAL_API=true` para desarrollo contra Django local.
+  /// 3. Backend de producción en Vercel.
   static String get baseUrl {
     const override = String.fromEnvironment('API_URL');
     if (override.isNotEmpty) {
-      return override.replaceAll(RegExp(r'/+$'), '');
+      return _normalizeBase(override);
     }
-    if (kIsWeb) {
+    const useLocalApi = bool.fromEnvironment('USE_LOCAL_API');
+    if (useLocalApi) {
+      if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+        return 'http://10.0.2.2:8000/api/v1';
+      }
       return 'http://127.0.0.1:8000/api/v1';
     }
-    if (defaultTargetPlatform == TargetPlatform.android) {
-      return 'http://10.0.2.2:8000/api/v1';
-    }
-    return 'http://127.0.0.1:8000/api/v1';
+    return productionBaseUrl;
   }
+
+  /// Origen del backend (sin el prefijo de la API), útil para media.
+  static String get serverOrigin => Uri.parse(baseUrl).origin;
+
+  /// Convierte rutas relativas devueltas por Django (ej. `/media/foto.jpg`)
+  /// en URLs absolutas para que funcionen en web y móvil.
+  static String resolveUrl(String value) {
+    final url = value.trim();
+    if (url.isEmpty) return url;
+    final parsed = Uri.tryParse(url);
+    if (parsed != null && parsed.hasScheme) return url;
+    if (url.startsWith('//')) return 'https:$url';
+    return url.startsWith('/')
+        ? '$serverOrigin$url'
+        : '$serverOrigin/$url';
+  }
+
+  static String _normalizeBase(String value) =>
+      value.replaceAll(RegExp(r'/+$'), '');
 
   Future<dynamic> get(String path, {bool auth = true}) {
     return _send('GET', path, auth: auth);

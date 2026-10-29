@@ -1,3 +1,5 @@
+import '../core/network/api_client.dart';
+
 class AdminDashboardStats {
   const AdminDashboardStats({
     required this.totalUsuarios,
@@ -102,7 +104,9 @@ class AdminUserItem {
     final fullName = (json['full_name'] ?? '$firstName $lastName')
         .toString()
         .trim();
-    final avatar = (perfil['foto'] ?? '').toString().trim();
+    final avatar = ApiClient.resolveUrl(
+      (perfil['foto'] ?? '').toString().trim(),
+    );
     return AdminUserItem(
       id: (json['id'] as num?)?.toInt() ?? 0,
       username: (json['username'] ?? '').toString(),
@@ -262,7 +266,9 @@ class AdminOrderItem {
             quantity: (data['quantity'] as num?)?.toInt() ?? 1,
             subtotal: (data['subtotal'] as num?)?.toDouble() ?? 0,
             address: (data['address'] ?? '').toString(),
-            imageUrl: (product['image_url'] ?? '').toString(),
+            imageUrl: ApiClient.resolveUrl(
+              (product['image_url'] ?? '').toString(),
+            ),
           ),
         );
       }

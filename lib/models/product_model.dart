@@ -1,3 +1,5 @@
+import '../core/network/api_client.dart';
+
 class ProductModel {
   final String id;
   final String name;
@@ -43,7 +45,7 @@ class ProductModel {
       stock: (json['stock'] as num?)?.toInt() ?? 0,
       rating: (json['rating'] as num?)?.toDouble() ?? 0,
       reviewsCount: (json['reviews_count'] as num?)?.toInt() ?? 0,
-      imageUrl: (json['image_url'] ?? '').toString(),
+      imageUrl: ApiClient.resolveUrl((json['image_url'] ?? '').toString()),
       isFeatured: json['is_featured'] == true,
       features: features,
     );

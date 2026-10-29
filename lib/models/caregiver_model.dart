@@ -1,3 +1,5 @@
+import '../core/network/api_client.dart';
+
 class CaregiverModel {
   final String id;
   final String name;
@@ -68,7 +70,9 @@ class CaregiverModel {
       isVerified: json['is_verified'] == true,
       bio: (json['bio'] ?? '').toString(),
       hourlyRate: (json['hourly_rate'] as num?)?.toDouble() ?? 0,
-      avatarUrl: (json['avatar_url'] ?? '').toString(),
+      avatarUrl: ApiClient.resolveUrl(
+        (json['avatar_url'] ?? '').toString(),
+      ),
       certifications: certifications,
       isAvailable: json['is_available'] == true,
     );

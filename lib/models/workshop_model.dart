@@ -1,3 +1,5 @@
+import '../core/network/api_client.dart';
+
 class WorkshopModel {
   final String id;
   final String workshopId;
@@ -50,7 +52,7 @@ class WorkshopModel {
       instructor: (json['instructor'] ?? 'Equipo CuidArte').toString(),
       instructorRole:
           (json['instructor_role'] ?? 'Bienestar y salud').toString(),
-      imageUrl: (json['image_url'] ?? '').toString(),
+      imageUrl: ApiClient.resolveUrl((json['image_url'] ?? '').toString()),
       locationOrLink: (json['location_or_link'] ?? '').toString(),
       price: (json['price'] as num?)?.toDouble() ?? 0,
       isEnrolled: json['is_enrolled'] == true,
