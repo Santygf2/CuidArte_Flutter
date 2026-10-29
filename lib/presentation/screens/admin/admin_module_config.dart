@@ -467,6 +467,12 @@ AdminModuleConfig sessionsModule({
 
 AdminChipData orderStatusChip(String status) {
   switch (status) {
+    case 'pagado':
+      return const AdminChipData(
+        'Pagado',
+        foreground: Color(0xFF166534),
+        background: Color(0xFFDCFCE7),
+      );
     case 'confirmado':
       return const AdminChipData(
         'Confirmado',

@@ -23,6 +23,7 @@ class AdminOrdersScreen extends StatefulWidget {
 class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
   static const _statuses = <String, String>{
     'pendiente': 'Pendiente',
+    'pagado': 'Pagado',
     'confirmado': 'Confirmado',
     'enviado': 'Enviado',
     'entregado': 'Entregado',
